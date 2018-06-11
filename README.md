@@ -38,7 +38,7 @@ src/
 simplyser-x.x.x-SNAPSHOT.jar
 ```
 
-Files src/main/webapp/resources/* are required for the frontend web page. Please directly copy the folder from source code to deployment for convenience. Or better, minimize and bundle the js files before deployment.
+Files src/main/webapp/resources/* are required for the frontend web page. Some JS files are external libraries downloaded via CDN (Bootstrap, JQuery, ReactJS, BabelJS). Just for convenience, those files are predownloaded for running the application locally. Please also consider using cdn links (in index.html) instead of local resources.
 
 root/ folder is your root filesystem folder for the file server. 
 
