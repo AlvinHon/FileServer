@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <title>SimplySer</title>
+        <meta charset="utf-8">
+    
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" > -->
+        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script> -->
+        <!-- <script  src="https://unpkg.com/react@16/umd/react.production.min.js"></script> -->
+        <!-- <script  src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script> -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script> -->
+        <!-- <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script> -->
+        
+        <script src="/resources/js/jquery.min.js"></script>
+        <link rel="stylesheet" href="/resources/css/bootstrap.min.css" >
+        <script src="/resources/js/bootstrap.min.js" ></script>
+        <script  src="/resources/js/react.production.min.js"></script>
+        <script  src="/resources/js/react-dom.production.min.js"></script>
+        <script src="/resources/js/babel.js"></script>
+        <script type="text/babel" src="/resources/js/simplyser.jsx" ></script>
+        <script type="text/babel" src="/resources/js/index.js" ></script>
+        <style>
+            .droparea{
+                border: 1px dashed lightblue;
+            }
+            .dragarea {
+                border: 1px solid goldenrod;    
+            }
+            #dropfile {
+                height: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="page-header"> <h1>SimplySer </h1> </div>
+            <div class="row droparea" id="dropfile"  ondrop="dropHandler(event);" ondragover="dragOverHandler(event);"> 
+                drop your file here to upload 
+            </div>
+            <div class="row" id="pathheader"></div>
+            <table class="row table">
+                <tbody id="filelist">
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
