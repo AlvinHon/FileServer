@@ -1,11 +1,11 @@
-$('document').ready(function(){
+$('document').ready(function () {
     var upload_box_message = undefined;
     var gotoFolder = function (paths) {
         var pth = paths.slice(1).join('/');
         $.ajax({
             url: "/goto",
-            data: "path="+pth,
-            success: function(data){
+            data: "path=" + pth,
+            success: function (data) {
                 g_curdir = paths;
                 renderUploadBox();
                 renderPathHeader();
@@ -21,18 +21,18 @@ $('document').ready(function(){
         );
         upload_box_message = undefined;
     }
-    
+
     function renderPathHeader() {
         ReactDOM.render(
-            <PathHeader gotofunc={gotoFolder} curdir={ g_curdir }/>,
+            <PathHeader gotofunc={gotoFolder} curdir={g_curdir} />,
             document.getElementById('pathheader')
         );
     }
 
-    function updateFileRecord(data){
+    function updateFileRecord(data) {
         console.log(data);
         ReactDOM.render(
-            <FileRecord gotofunc={gotoFolder} curdir={g_curdir} files={data}/>,
+            <FileRecord gotofunc={gotoFolder} curdir={g_curdir} files={data} />,
             document.getElementById("filelist")
         );
     }
@@ -56,8 +56,8 @@ $('document').ready(function(){
                     contentType: false,
                     processData: false,
                     enctype: 'multipart/form-data',
-                    success: function(response){
-                        upload_box_message = "success "+response;
+                    success: function (response) {
+                        upload_box_message = "success " + response;
                         gotoFolder(g_curdir);
                     }
                 });
@@ -70,7 +70,7 @@ $('document').ready(function(){
     function dragOverHandler(ev) {
         $("#dropfile").removeClass("droparea");
         $("#dropfile").addClass("dragarea");
-        
+
 
         // Prevent default behavior (Prevent file from being opened)
         ev.preventDefault();
@@ -89,7 +89,7 @@ $('document').ready(function(){
         }
     }
 
-    
+
     // Initialization
     var g_curdir = ["root"];
 

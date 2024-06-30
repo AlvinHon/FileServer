@@ -8,13 +8,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebMvc
 public class ServerConfig implements WebMvcConfigurer {
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry
-			.addResourceHandler("/resources/**")
-			.addResourceLocations("/resources/");
+				.addResourceHandler("/resources/**")
+				.addResourceLocations("/resources/");
 		registry
-			.addResourceHandler("/index.html")
-			.addResourceLocations("/resources/");
-    }
+				.addResourceHandler("/index.html")
+				.addResourceLocations("/resources/");
+	}
 }
