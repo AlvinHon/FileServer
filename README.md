@@ -1,32 +1,34 @@
-# SimplySer
-A Simple file transfer http server to provide file downloads/uploads at local filesystem. It focus on providing simpler operations to download/upload file, such as by draging file for uploading file.
+# File Server
+A Simple file transfer http server to provide file downloads/uploads at local filesystem. It focuses on providing simpler operations to download/upload file, such as by uploading them to server by dragging files to the webapp.
 
-Most common technology for file storage is a Samba [Samba](https://en.wikipedia.org/wiki/Samba_(software)) File Network Server. Hence for users do not setup a samba file server, this SimplySer might serve your purpose simply and quickly.
-
-
-## snapshot
-![alt text](https://github.com/AlvinHon/SimplySer/blob/master/preview.png "SimplySer Preview")
-
-## Technologies
-
-* Spring Boot
-* Java 1.8
-* Maven
-* JQuery
-* Bootstrap CSS
-* React js, Babel js
+**Screenshot**:
+![alt text](asserts/preview.png "FileServer Preview")
 
 ## Build
 
-Maven is used for building Spring Boot application.
+Build the Spring Boot application with Maven.
 
 ```sh
-maven package -Dmaven.test.skip=true
+mvn package
 ```
 
-Output .jar file (simplyser-x.x.x-SNAPSHOT.jar) is located at target folder.
+It outputs a `.jar` file (fileserver-x.x.x-SNAPSHOT.jar) at the `target/` folder.
 
-To deploy the application, below is the file structure:
+## Configure
+
+Configure the file `src/main/resources/application.properties` for customizing the application.
+
+The values used in the source folder are as follows:
+```conf
+server.address=localhost
+server.port=8080
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+```
+
+## Run 
+
+Prepare the file organization as follows:
 
 ```
 root/
@@ -35,28 +37,15 @@ src/
     webapp/
       resources/
         (..)
-simplyser-x.x.x-SNAPSHOT.jar
+fileserver-x.x.x-SNAPSHOT.jar
 ```
 
-Files src/main/webapp/resources/* are required for the frontend web page. Some JS files are external libraries downloaded via CDN (Bootstrap, JQuery, ReactJS, BabelJS). Just for convenience, those files are predownloaded for running the application locally. Please also consider using cdn links (in index.html) instead of local resources.
+The folder `src/main/webapp/resources/` are the content for serving frontend web page. They include some JS files which are external libraries (Bootstrap, JQuery, ReactJS, BabelJS) (pre)downloaded via CDN. 
 
-root/ folder is your root filesystem folder for the file server. 
+The folder `root/` is the destination for storing the files uploaded from the file server. 
 
+Run the java application,
 
-and run:
-
+```sh
+java -jar fileserver-x.x.x-SNAPSHOT.jar
 ```
-java -jar simplyser-x.x.x-SNAPSHOT.jar
-```
-
-## Configure
-
-File src/main/resources/application.properties defined the server related information.
-
-```
-server.address=localhost
-server.port=8080
-spring.servlet.multipart.max-file-size=10MB
-spring.servlet.multipart.max-request-size=10MB
-```
-

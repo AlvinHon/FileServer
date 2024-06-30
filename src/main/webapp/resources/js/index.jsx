@@ -1,3 +1,11 @@
+class UploadBox extends React.Component {
+    render() {
+        let message = this.props.message? this.props.message : "drop your file here to upload";
+        return <div style={ { height: "100%" } } onDragOver={ this.props.dragOverHandler } onDrop={ this.props.dropHandler } >
+            {message}
+        </div>
+    }
+}
 
 class PathItem extends React.Component {
     folder = () => {

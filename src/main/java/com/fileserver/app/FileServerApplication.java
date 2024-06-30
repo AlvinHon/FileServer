@@ -1,4 +1,4 @@
-package com.simplyser.simplyser;
+package com.fileserver.app;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -6,9 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
-import com.simplyser.model.SimplyFile;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.boot.SpringApplication;
@@ -22,10 +20,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.fileserver.model.RawFile;
+
 @Controller
 @EnableAutoConfiguration
 @SpringBootApplication
-public class SimplyserApplication {
+public class FileServerApplication {
 	
 	public final static String ROOTFOLDER = "root";
 
@@ -44,7 +44,7 @@ public class SimplyserApplication {
 	
 	@RequestMapping("/goto")
 	@ResponseBody
-	List<SimplyFile> folder(@RequestParam("path") String p){
+	List<RawFile> folder(@RequestParam("path") String p){
 		try{
 			File foundf = new File(ROOTFOLDER+File.separator+p);
 			if (!foundf.exists() || (!foundf.isFile() && !foundf.isDirectory())){
@@ -124,8 +124,8 @@ public class SimplyserApplication {
 		return false;
 	}
 
-	private List<SimplyFile> getAllFiles(String path){
-		List<SimplyFile> ret = new ArrayList<>();
+	private List<RawFile> getAllFiles(String path){
+		List<RawFile> ret = new ArrayList<>();
 
 		File folder = new File(path);
 		if (!CheckRoot(folder)){
@@ -135,19 +135,19 @@ public class SimplyserApplication {
 		if (folder.isDirectory()) {
 			for (File f : folder.listFiles()){
 				try{
-					ret.add(new SimplyFile(f));
+					ret.add(new RawFile(f));
 				}catch(Exception ex){
 					ex.printStackTrace();
 				}
 			}
 		} else if (folder.isFile()) {
-			ret.add(new SimplyFile(folder));
+			ret.add(new RawFile(folder));
 		}
 
 		return ret;
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(SimplyserApplication.class, args);
+		SpringApplication.run(FileServerApplication.class, args);
 	}
 }

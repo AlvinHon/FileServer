@@ -1,8 +1,8 @@
-package com.simplyser.model;
+package com.fileserver.model;
 
 import java.io.File;
 
-public class SimplyFile{
+public class RawFile{
     private File file;
 
     private String fileName;
@@ -13,7 +13,7 @@ public class SimplyFile{
     private long length;
     private long lastModified;
     
-    public SimplyFile(File f) {
+    public RawFile(File f) {
         this.file = f;
         setIsFolder(f.isDirectory());
         setCanWrite(f.canWrite());

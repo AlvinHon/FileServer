@@ -1,5 +1,5 @@
 $('document').ready(function(){
-
+    var upload_box_message = undefined;
     var gotoFolder = function (paths) {
         var pth = paths.slice(1).join('/');
         $.ajax({
@@ -7,14 +7,22 @@ $('document').ready(function(){
             data: "path="+pth,
             success: function(data){
                 g_curdir = paths;
-                updatePathHeader();
+                renderUploadBox();
+                renderPathHeader();
                 updateFileRecord(data);
             }
         });
     }
 
+    function renderUploadBox() {
+        ReactDOM.render(
+            <UploadBox message={upload_box_message} dragOverHandler={dragOverHandler} dropHandler={dropHandler} />,
+            document.getElementById('dropfile')
+        );
+        upload_box_message = undefined;
+    }
     
-    function updatePathHeader() { 
+    function renderPathHeader() {
         ReactDOM.render(
             <PathHeader gotofunc={gotoFolder} curdir={ g_curdir }/>,
             document.getElementById('pathheader')
@@ -49,7 +57,7 @@ $('document').ready(function(){
                     processData: false,
                     enctype: 'multipart/form-data',
                     success: function(response){
-                        $("#dropfile").html("success "+response);
+                        upload_box_message = "success "+response;
                         gotoFolder(g_curdir);
                     }
                 });
@@ -85,7 +93,7 @@ $('document').ready(function(){
     // Initialization
     var g_curdir = ["root"];
 
+    renderUploadBox();
     gotoFolder(g_curdir);
-    updatePathHeader();
-
+    renderPathHeader();
 });
