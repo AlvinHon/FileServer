@@ -2,23 +2,23 @@ package com.fileserver.model;
 
 import java.io.File;
 
-public class RawFile {
+/**
+ * AppFile
+ * 
+ * This class is a model class for the file wrapper on File. It is the returned
+ * type to the web client as a JSON object.
+ */
+public class AppFile {
     private File file;
 
     private String fileName;
     private boolean isFolder;
-    private boolean canWrite;
-    private boolean canRead;
-    private boolean canExecute;
     private long length;
     private long lastModified;
 
-    public RawFile(File f) {
+    public AppFile(File f) {
         this.file = f;
         setIsFolder(f.isDirectory());
-        setCanWrite(f.canWrite());
-        setCanRead(f.canRead());
-        setCanExecute(f.canExecute());
         setLength(f.length());
         setLastModified(f.lastModified());
         setFileName(file.getName());
@@ -42,30 +42,6 @@ public class RawFile {
 
     public void setIsFolder(boolean isf) {
         isFolder = isf;
-    }
-
-    public boolean getCanWrite() {
-        return canWrite;
-    }
-
-    public void setCanWrite(boolean cw) {
-        canWrite = cw;
-    }
-
-    public boolean getCanRead() {
-        return canRead;
-    }
-
-    public void setCanRead(boolean cr) {
-        canRead = cr;
-    }
-
-    public boolean getCanExecute() {
-        return canExecute;
-    }
-
-    public void setCanExecute(boolean ce) {
-        canExecute = ce;
     }
 
     public long getLength() {

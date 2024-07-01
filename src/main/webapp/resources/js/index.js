@@ -56,8 +56,12 @@ $('document').ready(function () {
                     contentType: false,
                     processData: false,
                     enctype: 'multipart/form-data',
-                    success: function (response) {
-                        upload_box_message = "success " + response;
+                    success: function (response, status) {
+                        if (status != "success") {
+                            upload_box_message = "error";
+                        } else {
+                            upload_box_message = "success, copied " + response + " bytes";
+                        }
                         gotoFolder(g_curdir);
                     }
                 });
