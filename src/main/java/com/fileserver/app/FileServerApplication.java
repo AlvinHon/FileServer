@@ -26,12 +26,12 @@ import com.fileserver.model.RawFile;
 @EnableAutoConfiguration
 @SpringBootApplication
 public class FileServerApplication {
-	
+
 	public final static String ROOTFOLDER = "root";
 
 	@RequestMapping("/")
-    RedirectView home() {
-        return new RedirectView("index.html");
+	RedirectView home() {
+		return new RedirectView("index.html");
 	}
 
 	@RequestMapping("/curdir")
@@ -41,18 +41,18 @@ public class FileServerApplication {
 		String s = currentRelativePath.toAbsolutePath().toString();
 		return s;
 	}
-	
+
 	@RequestMapping("/goto")
 	@ResponseBody
-	List<RawFile> folder(@RequestParam("path") String p){
-		try{
-			File foundf = new File(ROOTFOLDER+File.separator+p);
-			if (!foundf.exists() || (!foundf.isFile() && !foundf.isDirectory())){
+	List<RawFile> folder(@RequestParam("path") String p) {
+		try {
+			File foundf = new File(ROOTFOLDER + File.separator + p);
+			if (!foundf.exists() || (!foundf.isFile() && !foundf.isDirectory())) {
 				return null;
 			}
 			if (foundf.isDirectory()) {
-				return getAllFiles(ROOTFOLDER+File.separator+p);
-			} 
+				return getAllFiles(ROOTFOLDER + File.separator + p);
+			}
 
 			return null;
 		} catch (Exception ex) {
@@ -61,20 +61,20 @@ public class FileServerApplication {
 		}
 	}
 
-	@RequestMapping(value="/download", method=RequestMethod.GET, produces=MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@RequestMapping(value = "/download", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
-	FileSystemResource downloadfile(HttpServletResponse response, @RequestParam("file") String p){
-		try{
-			File foundf = new File(ROOTFOLDER+File.separator+p);
-			if (!foundf.exists() || !foundf.isFile() || !CheckRoot(foundf)){
+	FileSystemResource downloadfile(HttpServletResponse response, @RequestParam("file") String p) {
+		try {
+			File foundf = new File(ROOTFOLDER + File.separator + p);
+			if (!foundf.exists() || !foundf.isFile() || !CheckRoot(foundf)) {
 				return null;
 			}
-			if (!foundf.isFile()){
+			if (!foundf.isFile()) {
 				return null;
 			}
-			response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\";",foundf.getName()));
+			response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\";", foundf.getName()));
 			return new FileSystemResource(foundf);
-		}catch(Exception ex){
+		} catch (Exception ex) {
 
 		}
 		return null;
@@ -82,61 +82,63 @@ public class FileServerApplication {
 
 	@PostMapping("/upload")
 	@ResponseBody
-    public String handleFileUpload(HttpServletResponse response, @RequestParam("file") MultipartFile file , @RequestParam("path") String path) {
-		File wfile = new File(ROOTFOLDER+File.separator+path+File.separator+file.getOriginalFilename());
-		if (!CheckRoot(wfile)){
+	public String handleFileUpload(HttpServletResponse response, @RequestParam("file") MultipartFile file,
+			@RequestParam("path") String path) {
+		File wfile = new File(ROOTFOLDER + File.separator + path + File.separator + file.getOriginalFilename());
+		if (!CheckRoot(wfile)) {
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			return null;
 		}
 		FileOutputStream out = null;
-		try{
+		try {
 			out = new FileOutputStream(wfile);
 			IOUtils.copy(file.getInputStream(), out);
-			return "You successfully uploaded " + file.getOriginalFilename() + " ("+file.getSize()+") to /root/"+path+"!";
-		}catch(Exception ex){
+			return "You successfully uploaded " + file.getOriginalFilename() + " (" + file.getSize() + ") to /root/"
+					+ path + "!";
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
 			return null;
-		}finally{
-			try{
+		} finally {
+			try {
 				file.getInputStream().close();
-			}catch(Exception ex){
+			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-			try{
-				if (out != null) out.close();
-			}catch(Exception ex){
+			try {
+				if (out != null)
+					out.close();
+			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 
 		}
-    }
-
+	}
 
 	private boolean CheckRoot(File f) {
-		try { 
+		try {
 			// ensure requesting path is inside ROOT folder
 			String checkPath = new File(ROOTFOLDER).getAbsolutePath();
 			return f.getCanonicalPath().startsWith(checkPath);
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		return false;
 	}
 
-	private List<RawFile> getAllFiles(String path){
+	private List<RawFile> getAllFiles(String path) {
 		List<RawFile> ret = new ArrayList<>();
 
 		File folder = new File(path);
-		if (!CheckRoot(folder)){
+		if (!CheckRoot(folder)) {
 			return ret;
 		}
-			
+
 		if (folder.isDirectory()) {
-			for (File f : folder.listFiles()){
-				try{
+			for (File f : folder.listFiles()) {
+				try {
 					ret.add(new RawFile(f));
-				}catch(Exception ex){
+				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 			}
